@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 
 public class Client{
 	private Socket socket;
-	public PrintWriter out;
+	public static PrintWriter out;
 	public BufferedReader in;
 	public TankFrame tf;
 	public Client(JFrame f) throws UnknownHostException, IOException, InterruptedException {
@@ -23,14 +23,20 @@ public class Client{
 		f.setVisible(false);
 		Double_Game dg = new Double_Game();
 		dg.start();
-		Thread.sleep(50);
+		SendThread st = new SendThread();
+		st.start();
+		while(Method.tf == null) {
+			Thread.sleep(50);
+		}
+		tf = Method.tf;
 		this.tf = Method.tf;
 		receiveMessage();
 	}
-	private void receiveMessage() throws IOException {
+	private void receiveMessage() throws IOException, InterruptedException {
 		String readline;
 		while(true) {
 			readline = in.readLine();
+			System.out.println(readline);
 			String[] buff = readline.split("@");
 			if(buff[0].equals("p")) {
 				Direction direction = Direction.UP;
@@ -71,6 +77,66 @@ public class Client{
 				temp.setId(1);
 				tf.enemies.add(temp);
 			}
+			if(buff[0].equals("b")) {
+				System.out.println("Fire");
+				Direction direction = Direction.UP;
+				Group group = Group.Player;
+				int x = Integer.parseInt(buff[1]);
+				int y = Integer.parseInt(buff[2]);
+				int d = Integer.parseInt(buff[3]);
+				int g = Integer.parseInt(buff[4]);
+				if(g == 0) {
+					group = Group.Enemy;
+					System.out.println("En");
+				}
+				switch(d) {
+				case 1:
+					direction = Direction.UP;
+					break;
+				case 2:
+					direction = Direction.LEFT;
+					break;
+				case 3:
+					direction = Direction.DOWN;
+					break;
+				case 4:
+					direction = Direction.RIGHT;
+					break;
+				}
+				tf.bullets.add(new Bullet(x, y, direction, group, tf));
+			}
+			if(buff[0].equals("stop")) {
+				for(int j = 0; j < tf.player1.size(); j++) {
+					tf.player1.get(j).setMoving(false);
+				}
+			}
+			if(buff[0].equals("playerchange")) {
+				for(int j = 0; j < tf.player1.size(); j++) {
+					Direction dir = Direction.valueOf(buff[1]);
+					tf.player1.get(j).setDir(dir);
+					tf.player1.get(j).setMoving(true);
+					continue;
+				}
+			}
+//			if(buff[0].equals("d")) {
+//				Direction direction = Direction.UP;
+//				int d = Integer.parseInt(buff[1]);
+//				switch(d) {
+//				case 1:
+//					direction = Direction.UP;
+//					break;
+//				case 2:
+//					direction = Direction.LEFT;
+//					break;
+//				case 3:
+//					direction = Direction.DOWN;
+//					break;
+//				case 4:
+//					direction = Direction.LEFT;
+//					break;
+//				}
+//			}
+			Thread.sleep(30);
 		}
 		
 	}

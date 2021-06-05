@@ -16,7 +16,7 @@ public class Tank {
 	private boolean havedfired = false; //记录有没有发射过子弹
 	
 	private boolean moving = false;
-	private final int speed = 1;  //6
+	private int speed = 6;  //6
 	private TankFrame tf;
 	private boolean live = true;
 	private Group group = Group.Enemy;
@@ -29,6 +29,9 @@ public class Tank {
 		this.group = group;
 		this.dir = dir;
 		this.tf = tf;
+		if(ClientMain.model == 1) {
+			this.speed = 4;
+		}
 		if(group == Group.Enemy)  moving = true;
 	}
 	
@@ -159,7 +162,7 @@ public class Tank {
 		case DOWN:	setY(getY() + speed);break;
 		default:break;
 		}
-		if( random.nextInt(100) > 90  && group == Group.Enemy)  this.fire();
+//		if( random.nextInt(100) > 90  && group == Group.Enemy)  this.fire();
 	}
 	public void fire() { 
 		if(havedfired == true)   {
@@ -184,7 +187,30 @@ public class Tank {
 		}
 		if(group == Group.Player)     {
 			bullet = new Bullet(bullet_x, bullet_y, this.dir,group.Player,  this.tf);
-			tf.bullets.add(bullet);  //把坦克的位置和方向传给子弹作为子弹的属性
+			int d = 0;
+			switch(this.dir) {
+			case UP:
+				d = 1;
+				break;
+			case RIGHT:
+				d = 2;
+				break;
+			case DOWN:
+				d = 3;
+				break;
+			case LEFT:
+				d = 4;
+				break;
+			}
+			
+			tf.data = "b@" + bullet_x + "@" + bullet_y + "@" + d;    
+			if(ClientMain.model == 1)
+				try {
+					Thread.sleep(tf.sec);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			tf.bullets.add(bullet);
 		}
 		else if(group == Group.Enemy)  {
 			bullet = new Bullet(bullet_x, bullet_y, this.dir,group.Enemy,  this.tf);

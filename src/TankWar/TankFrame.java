@@ -38,7 +38,8 @@ class TankFrame extends Frame{
 	int step_to_win = 40;
 	public final int Window_Width = 800, Window_Height = 625;
 	int flag = 0; 
-	String data = "";
+	public static String data = "";
+	public static int sec = 50;
 	
 	public TankFrame() {
 		setSize(Window_Width,Window_Height);
@@ -121,7 +122,12 @@ class TankFrame extends Frame{
 			case KeyEvent.VK_S:	flag_S = true;break;
 			default:break;
 			}
-			setMainTankDirection();
+			try {
+				setMainTankDirection();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		@Override
@@ -147,13 +153,20 @@ class TankFrame extends Frame{
 			}
 			default:break;
 			}
-			setMainTankDirection();
+			try {
+				setMainTankDirection();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}  
-		public void setMainTankDirection() {
+		public void setMainTankDirection() throws InterruptedException {
 			if(!flag_A && !flag_D && !flag_W && !flag_S)  {
 				if(ClientMain.model == 1) {
 					for(int j = 0; j < player2.size(); j++) {
 						player2.get(j).setMoving(false);
+						data = "stop@1";
+						Thread.sleep(sec);
 					}
 				}
 				else {
@@ -164,28 +177,35 @@ class TankFrame extends Frame{
 			}
 			else {
 				if(ClientMain.model == 1) {
+					Direction dir = Direction.UP;;
 					if(flag_A) {
 						for(int j = 0; j < player2.size(); j++) {
 							player2.get(j).setDir(Direction.LEFT);
+							dir = Direction.LEFT;
 						}
 					}
 					if(flag_D) {
 						for(int j = 0; j < player2.size(); j++) {
 							player2.get(j).setDir(Direction.RIGHT);
+							dir = Direction.RIGHT;
 						}
 					}
 					if(flag_W) {
 						for(int j = 0; j < player2.size(); j++) {
 							player2.get(j).setDir(Direction.UP);
+							dir = Direction.UP;
 						}
 					}
 					if(flag_S) {
 						for(int j = 0; j < player2.size(); j++) {
 							player2.get(j).setDir(Direction.DOWN);
+							dir = Direction.DOWN;
 						}
 					}
 					for(int j = 0; j < player2.size(); j++) {
 						player2.get(j).setMoving(true);
+						data = "playerchange@" + dir;
+						Thread.sleep(sec);
 					}
 				}
 				else {
