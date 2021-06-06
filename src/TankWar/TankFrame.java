@@ -40,6 +40,7 @@ class TankFrame extends Frame{
 	int flag = 0; 
 	public static String data = "";
 	public static int sec = 50;
+	public static boolean pressed = false;
 	
 	public TankFrame() {
 		setSize(Window_Width,Window_Height);
@@ -125,7 +126,6 @@ class TankFrame extends Frame{
 			try {
 				setMainTankDirection();
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -174,6 +174,7 @@ class TankFrame extends Frame{
 						player1.get(j).setMoving(false);
 					}
 				}
+				pressed = false;
 			}
 			else {
 				if(ClientMain.model == 1) {
@@ -202,11 +203,15 @@ class TankFrame extends Frame{
 							dir = Direction.DOWN;
 						}
 					}
-					for(int j = 0; j < player2.size(); j++) {
-						player2.get(j).setMoving(true);
+					if(!pressed) {
 						data = "playerchange@" + dir;
 						Thread.sleep(sec);
+						
 					}
+					for(int j = 0; j < player2.size(); j++) {
+						player2.get(j).setMoving(true);
+					}
+					pressed = true;
 				}
 				else {
 					if(flag_A) {

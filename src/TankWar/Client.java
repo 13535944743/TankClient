@@ -36,7 +36,7 @@ public class Client{
 		String readline;
 		while(true) {
 			readline = in.readLine();
-			System.out.println(readline);
+//			System.out.println(readline);
 			String[] buff = readline.split("@");
 			if(buff[0].equals("p")) {
 				Direction direction = Direction.UP;
@@ -78,7 +78,6 @@ public class Client{
 				tf.enemies.add(temp);
 			}
 			if(buff[0].equals("b")) {
-				System.out.println("Fire");
 				Direction direction = Direction.UP;
 				Group group = Group.Player;
 				int x = Integer.parseInt(buff[1]);
@@ -87,7 +86,6 @@ public class Client{
 				int g = Integer.parseInt(buff[4]);
 				if(g == 0) {
 					group = Group.Enemy;
-					System.out.println("En");
 				}
 				switch(d) {
 				case 1:
