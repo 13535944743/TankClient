@@ -1,6 +1,7 @@
 package TankWar;
 
 import java.awt.Frame;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,7 +28,7 @@ public class Method {
 		break;
 		}
 		
-		ran = random.nextInt(4) + 1;//重生后的方向随机
+		ran = random.nextInt(4) + 1; //重生后的方向随机
 		switch(ran) {
 		case 1:tf.enemies.add(new Tank(x, 31, Direction.LEFT,Group.Enemy, tf));
 		break;
@@ -217,24 +218,23 @@ public class Method {
 //				}, 1000, 100);
 //			}
 //			/***************************************游戏失败**********/
-//			if(tf.getChance() <= 0 || (tf.home.isLiving() == false && tf.blast.isLiving() == false)) {
-//				tf.setVisible(false);
-//				tf.dispose();
-//				LostFrame f = new LostFrame("坦克大战");
-////				tf.home.setLiving(true);
-////				tf.setChance(3);
-//				return;
-//			}
-//			/***********************************************/
-//			
-//			/***************************************游戏胜利**********/
-//			if(tf.getStep_to_win() <= 0) {
-//				tf.setVisible(false);
-//				tf.dispose();
-//				
-//				WinFrame wf = new WinFrame("坦克大战");
-//				return;
-//			}
+			if(tf.getChance() <= 0 || (tf.home.isLiving() == false && tf.blast.isLiving() == false)) {
+				tf.finish = true;
+				tf.setVisible(false);
+				tf.dispose();
+				LostFrame f = new LostFrame("坦克大战");
+				return;
+			}
+			/***********************************************/
+			
+			/***************************************游戏胜利**********/
+			if(tf.getStep_to_win() <= 0) {
+				tf.setVisible(false);
+				tf.dispose();
+				
+				WinFrame wf = new WinFrame("坦克大战");
+				return;
+			}
 			/***********************************************/
 			for(i = 0; i < tf.bullets.size(); i++ ) {
 				for(int j = 0; j < tf.enemies.size(); j++) {

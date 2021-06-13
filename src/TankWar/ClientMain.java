@@ -27,6 +27,7 @@ public class ClientMain {
 				model = 1;
 				client = new Client(f1);
 				model = 0;
+				System.out.println("Ë«ÈËÓÎÏ·½áÊø");
 				StartFrame.flag = 0;
 			}
 			else if(StartFrame.flag == 3) {

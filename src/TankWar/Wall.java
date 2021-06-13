@@ -44,13 +44,13 @@ public class Wall {
 		Rectangle tank_rec;
 		Direction dir = tank.getDir();
 		switch(dir) {
-		case LEFT: tank_rec = new Rectangle(tank.getX() - 4, tank.getY(), tank.getWidth(), tank.getHeight());//加多一点空隙，防止坦克贴住墙
+		case LEFT: tank_rec = new Rectangle(tank.getX() - tank.getSpeed(), tank.getY(), tank.getWidth(), tank.getHeight());//加多一点空隙，防止坦克贴住墙
 			break;
-		case RIGHT: tank_rec = new Rectangle(tank.getX() + 4, tank.getY(), tank.getWidth(), tank.getHeight());
+		case RIGHT: tank_rec = new Rectangle(tank.getX() + tank.getSpeed(), tank.getY(), tank.getWidth(), tank.getHeight());
 		break;
-		case UP: tank_rec = new Rectangle(tank.getX(), tank.getY() - 4, tank.getWidth(), tank.getHeight());
+		case UP: tank_rec = new Rectangle(tank.getX(), tank.getY() - tank.getSpeed(), tank.getWidth(), tank.getHeight());
 		break;
-		case DOWN: tank_rec = new Rectangle(tank.getX(), tank.getY() + 4, tank.getWidth(), tank.getHeight());
+		case DOWN: tank_rec = new Rectangle(tank.getX(), tank.getY() + tank.getSpeed(), tank.getWidth(), tank.getHeight());
 		break;
 		default:tank_rec = new Rectangle(tank.getX(), tank.getY(), tank.getWidth(), tank.getHeight());
 			break;
@@ -85,7 +85,6 @@ public class Wall {
 		for(int i = 0; i < 2; i++)
 			tf.walls.add(new Wall(230 , 530 + i * 45, tf));
 		
-		tf.walls.add(new Wall(275 , 121, tf));
 		tf.walls.add(new Wall(275 , 440, tf));
 		tf.walls.add(new Wall(275 , 530, tf));
 		

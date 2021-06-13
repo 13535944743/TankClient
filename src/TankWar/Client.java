@@ -10,25 +10,28 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Client{
 	private Socket socket;
 	public static PrintWriter out;
 	public BufferedReader in;
 	public TankFrame tf;
+	public static SendThread st;
 	public Client(JFrame f) throws UnknownHostException, IOException, InterruptedException {
-		this.socket = new Socket("127.0.0.1", 5679);
+//		String inputValue = JOptionPane.showInputDialog("请输入主机地址");
+		String inputValue = "127.0.0.1";
+		this.socket = new Socket(inputValue, 5679);
 		this.out = new PrintWriter(socket.getOutputStream());        //由socket对象得到输出流，并构造PrintWriter对象
 		this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));    //构造BufferReader对象
 		f.setVisible(false);
 		Double_Game dg = new Double_Game();
 		dg.start();
-		SendThread st = new SendThread();
+		st = new SendThread();
 		st.start();
 		while(Method.tf == null) {
 			Thread.sleep(50);
 		}
-		tf = Method.tf;
 		this.tf = Method.tf;
 		receiveMessage();
 	}
@@ -36,27 +39,20 @@ public class Client{
 		String readline;
 		while(true) {
 			readline = in.readLine();
-//			System.out.println(readline);
+			if(readline.equals("finish")) {
+				break;
+			}
+			if(tf.finish) {
+				System.out.println("收结束");
+				break;
+			}
+			System.out.println(readline);
 			String[] buff = readline.split("@");
 			if(buff[0].equals("p")) {
 				Direction direction = Direction.UP;
 				Group group = Group.Player;
 				int x = Integer.parseInt(buff[1]);
 				int y = Integer.parseInt(buff[2]);
-//				switch(d) {
-//				case 1:
-//					direction = Direction.UP;
-//					break;
-//				case 2:
-//					direction = Direction.LEFT;
-//					break;
-//				case 3:
-//					direction = Direction.DOWN;
-//					break;
-//				case 4:
-//					direction = Direction.LEFT;
-//					break;
-//				}
 				tf.player1.add(new Tank(x, y, direction, group, tf));
 			}
 			if(buff[0].equals("q")) {
@@ -73,8 +69,21 @@ public class Client{
 				Group group = Group.Enemy;
 				int x = Integer.parseInt(buff[1]);
 				int y = Integer.parseInt(buff[2]);
+				int index = Integer.parseInt(buff[3]);
 				Tank temp = new Tank(x, y, direction, group, tf);
-				temp.setId(1);
+				temp.setIndex(index);
+				tf.enemies.add(temp);
+			}
+			if(buff[0].equals("e_up")) {
+				
+				Direction direction = Direction.UP;
+				Group group = Group.Enemy;
+				int x = Integer.parseInt(buff[1]);
+				int y = Integer.parseInt(buff[2]);
+				direction = Direction.valueOf(buff[3]);
+				int index = Integer.parseInt(buff[4]);
+				Tank temp = new Tank(x, y, direction, group, tf);
+				temp.setIndex(index);
 				tf.enemies.add(temp);
 			}
 			if(buff[0].equals("b")) {
@@ -92,13 +101,13 @@ public class Client{
 					direction = Direction.UP;
 					break;
 				case 2:
-					direction = Direction.LEFT;
+					direction = Direction.RIGHT;
 					break;
 				case 3:
 					direction = Direction.DOWN;
 					break;
 				case 4:
-					direction = Direction.RIGHT;
+					direction = Direction.LEFT;
 					break;
 				}
 				tf.bullets.add(new Bullet(x, y, direction, group, tf));
@@ -116,25 +125,34 @@ public class Client{
 					continue;
 				}
 			}
-//			if(buff[0].equals("d")) {
-//				Direction direction = Direction.UP;
-//				int d = Integer.parseInt(buff[1]);
-//				switch(d) {
-//				case 1:
-//					direction = Direction.UP;
-//					break;
-//				case 2:
-//					direction = Direction.LEFT;
-//					break;
-//				case 3:
-//					direction = Direction.DOWN;
-//					break;
-//				case 4:
-//					direction = Direction.LEFT;
-//					break;
-//				}
-//			}
-			Thread.sleep(30);
+			if(buff[0].equals("d")) {
+				Direction direction = Direction.UP;
+				int d = Integer.parseInt(buff[1]);
+				int index = Integer.parseInt(buff[2]);
+				switch(d) {
+				case 1:
+					direction = Direction.UP;
+					break;
+				case 2:
+					direction = Direction.RIGHT;
+					break;
+				case 3:
+					direction = Direction.DOWN;
+					break;
+				case 4:
+					direction = Direction.LEFT;
+					break;
+				}
+				for(int j = 0; j < tf.enemies.size(); j++) {
+					if(tf.enemies.get(j).getIndex() == index) {
+						tf.enemies.get(j).setDir(direction);
+						tf.enemies.get(j).setMoving(true);
+						break;
+					}
+					continue;
+				}
+			}
+			Thread.sleep(tf.sec);
 		}
 		
 	}

@@ -35,12 +35,13 @@ class TankFrame extends Frame{
 	Home home = new Home(277, 575,true, this);
 	Blast blast = new Blast(100, 100, this);
 	int chance = 3;
-	int step_to_win = 40;
+	int step_to_win = 20;
 	public final int Window_Width = 800, Window_Height = 625;
 	int flag = 0; 
 	public static String data = "";
 	public static int sec = 50;
 	public static boolean pressed = false;
+	public static boolean finish = false;
 	
 	public TankFrame() {
 		setSize(Window_Width,Window_Height);
@@ -49,6 +50,9 @@ class TankFrame extends Frame{
 		setBackground(Color.BLACK);
 		setLayout(null);
 		setVisible(true);
+		if(ClientMain.model == 1) {
+			step_to_win = 5;
+		}
 		this.addKeyListener( new MyKeyListener());
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent evt) {
@@ -167,6 +171,7 @@ class TankFrame extends Frame{
 						player2.get(j).setMoving(false);
 						data = "stop@1";
 						Thread.sleep(sec);
+						pressed = false;
 					}
 				}
 				else {
@@ -174,7 +179,6 @@ class TankFrame extends Frame{
 						player1.get(j).setMoving(false);
 					}
 				}
-				pressed = false;
 			}
 			else {
 				if(ClientMain.model == 1) {
@@ -206,7 +210,6 @@ class TankFrame extends Frame{
 					if(!pressed) {
 						data = "playerchange@" + dir;
 						Thread.sleep(sec);
-						
 					}
 					for(int j = 0; j < player2.size(); j++) {
 						player2.get(j).setMoving(true);

@@ -36,15 +36,17 @@ public class LostFrame extends JFrame{
 		b1.setBackground(Color.BLACK);
 		b1.setForeground(Color.WHITE);
 		b1.setSize(100, 50);
-		b1.setLocation(350, 450);
+		b1.setLocation(200, 450);
 		b1.addMouseListener(new MouseAdapter() {//鼠标监听事件
 			public void mouseReleased(MouseEvent event) {
 				if(event.getButton() == MouseEvent.BUTTON1) {  
 						try {
+//							if(ClientMain.model == 1) {
+//								ClientMain.client.in.close();
+//								ClientMain.client.out.close();
+//								ClientMain.client.getSocket().close();
+//							}
 							dispose();
-							if(ClientMain.model == 1) {
-								ClientMain.client.getSocket().close();
-							}
 							ClientMain.f1.setVisible(true);
 						}
 						catch (Exception e) {
@@ -88,39 +90,39 @@ public class LostFrame extends JFrame{
 				b2.setForeground(Color.WHITE);
 			}
 		});
-		JButton b3 = new JButton("再玩一次");
-		b3.setFont( new Font("雅黑", Font.BOLD, 16));
-		b3.setBackground(Color.BLACK);
-		b3.setForeground(Color.WHITE);
-		b3.setSize(100, 50);
-		b3.setLocation(200, 450);
-		b3.addMouseListener(new MouseAdapter() {//鼠标监听事件
-			public void mouseReleased(MouseEvent event) {
-				if(event.getButton() == MouseEvent.BUTTON1) {  
-						try {
-							dispose();
-							StartFrame.flag = 1;
-						}
-						catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			public void mouseEntered(MouseEvent event) {
-				System.out.println("enter");
-				b3.setBackground(Color.WHITE);
-				b3.setForeground(Color.BLACK);
-			}
-			public void mouseExited(MouseEvent event) {
-				System.out.println("exited");
-				b3.setBackground(Color.BLACK);
-				b3.setForeground(Color.WHITE);
-			}
-		});
+//		JButton b3 = new JButton("再玩一次");
+//		b3.setFont( new Font("雅黑", Font.BOLD, 16));
+//		b3.setBackground(Color.BLACK);
+//		b3.setForeground(Color.WHITE);
+//		b3.setSize(100, 50);
+//		b3.setLocation(200, 450);
+//		b3.addMouseListener(new MouseAdapter() {//鼠标监听事件
+//			public void mouseReleased(MouseEvent event) {
+//				if(event.getButton() == MouseEvent.BUTTON1) {  
+//						try {
+//							dispose();
+//							StartFrame.flag = 1;
+//						}
+//						catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//			public void mouseEntered(MouseEvent event) {
+//				System.out.println("enter");
+//				b3.setBackground(Color.WHITE);
+//				b3.setForeground(Color.BLACK);
+//			}
+//			public void mouseExited(MouseEvent event) {
+//				System.out.println("exited");
+//				b3.setBackground(Color.BLACK);
+//				b3.setForeground(Color.WHITE);
+//			}
+//		});
 		
 		root.add(b1);
 		root.add(b2);
-		root.add(b3);
+//		root.add(b3);
 		setSize(800,600);
 		setVisible(true);
 	}
