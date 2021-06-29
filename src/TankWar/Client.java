@@ -19,8 +19,8 @@ public class Client{
 	public TankFrame tf;
 	public static SendThread st;
 	public Client(JFrame f) throws UnknownHostException, IOException, InterruptedException {
-//		String inputValue = JOptionPane.showInputDialog("请输入主机地址");
-		String inputValue = "127.0.0.1";
+		String inputValue = JOptionPane.showInputDialog("请输入主机地址");
+//		String inputValue = "127.0.0.1";
 		this.socket = new Socket(inputValue, 5679);
 		this.out = new PrintWriter(socket.getOutputStream());        //由socket对象得到输出流，并构造PrintWriter对象
 		this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));    //构造BufferReader对象
@@ -46,7 +46,7 @@ public class Client{
 				System.out.println("收结束");
 				break;
 			}
-			System.out.println(readline);
+//			System.out.println(readline);
 			String[] buff = readline.split("@");
 			if(buff[0].equals("p")) {
 				Direction direction = Direction.UP;
@@ -65,6 +65,7 @@ public class Client{
 				tf.player2.add(temp);
 			}
 			if(buff[0].equals("e")) {
+				System.out.println(readline);
 				Direction direction = Direction.UP;
 				Group group = Group.Enemy;
 				int x = Integer.parseInt(buff[1]);
@@ -75,7 +76,7 @@ public class Client{
 				tf.enemies.add(temp);
 			}
 			if(buff[0].equals("e_up")) {
-				
+				System.out.println(readline);
 				Direction direction = Direction.UP;
 				Group group = Group.Enemy;
 				int x = Integer.parseInt(buff[1]);
@@ -95,6 +96,10 @@ public class Client{
 				int g = Integer.parseInt(buff[4]);
 				if(g == 0) {
 					group = Group.Enemy;
+					int chance = Integer.parseInt(buff[5]);
+					int step_to_win = Integer.parseInt(buff[6]);
+					tf.setChance(chance);
+					tf.setStep_to_win(step_to_win);
 				}
 				switch(d) {
 				case 1:
@@ -118,8 +123,12 @@ public class Client{
 				}
 			}
 			if(buff[0].equals("playerchange")) {
+				int x = Integer.parseInt(buff[1]);
+				int y = Integer.parseInt(buff[2]);
 				for(int j = 0; j < tf.player1.size(); j++) {
-					Direction dir = Direction.valueOf(buff[1]);
+					Direction dir = Direction.valueOf(buff[3]);
+					tf.player1.get(j).setX(x);
+					tf.player1.get(j).setY(y);
 					tf.player1.get(j).setDir(dir);
 					tf.player1.get(j).setMoving(true);
 					continue;
@@ -127,8 +136,10 @@ public class Client{
 			}
 			if(buff[0].equals("d")) {
 				Direction direction = Direction.UP;
-				int d = Integer.parseInt(buff[1]);
-				int index = Integer.parseInt(buff[2]);
+				int x = Integer.parseInt(buff[1]);
+				int y = Integer.parseInt(buff[2]);
+				int d = Integer.parseInt(buff[3]);
+				int index = Integer.parseInt(buff[4]);
 				switch(d) {
 				case 1:
 					direction = Direction.UP;
@@ -145,6 +156,8 @@ public class Client{
 				}
 				for(int j = 0; j < tf.enemies.size(); j++) {
 					if(tf.enemies.get(j).getIndex() == index) {
+						tf.enemies.get(j).setX(x);
+						tf.enemies.get(j).setY(y);
 						tf.enemies.get(j).setDir(direction);
 						tf.enemies.get(j).setMoving(true);
 						break;

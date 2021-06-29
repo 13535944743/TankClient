@@ -123,7 +123,7 @@ public class StartFrame extends JFrame{
 		root.add(b3);
 		root.add(b4);
 		setSize(800,600);
-		setLocation(900, 0);
+		setLocation(550, 200);
 		setVisible(true);
 		while(flag == 0) {
 			try {

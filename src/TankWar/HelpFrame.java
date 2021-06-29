@@ -103,6 +103,7 @@ public class HelpFrame extends JFrame{
 		root.add(b5);
 		root.add(b6);
 		setSize(800,600);
+		setLocation(550, 200);
 		setVisible(true);
 	}
 	private class BgPanel extends JPanel {

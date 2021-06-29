@@ -15,7 +15,7 @@ public class SendThread extends Thread{
 			}
 			if(TankFrame.data != "") {
 				Client.out.println(TankFrame.data);
-				System.out.println(TankFrame.data);
+//				System.out.println(TankFrame.data);
 				Client.out.flush();
 				TankFrame.data = "";
 			}

@@ -35,7 +35,7 @@ class TankFrame extends Frame{
 	Home home = new Home(277, 575,true, this);
 	Blast blast = new Blast(100, 100, this);
 	int chance = 3;
-	int step_to_win = 20;
+	int step_to_win = 5;
 	public final int Window_Width = 800, Window_Height = 625;
 	int flag = 0; 
 	public static String data = "";
@@ -49,6 +49,7 @@ class TankFrame extends Frame{
 //		setTitle("坦克大战");
 		setBackground(Color.BLACK);
 		setLayout(null);
+		setLocation(550, 200);
 		setVisible(true);
 		if(ClientMain.model == 1) {
 			step_to_win = 5;
@@ -82,8 +83,6 @@ class TankFrame extends Frame{
 		g.clearRect(0, 0, width, height);
 		
 		g.setColor(Color.RED);
-		g.drawString("子弹数量："+ bullets.size(), 60, 50);
-		g.drawString("敌人数量："+ enemies.size(), 60, 70);
 		g.drawString("Life:"+ chance, 650, 50);
 		g.drawString("剩余敌人:"+ step_to_win, 650, 70);
 		g.setColor(Color.RED);
@@ -208,7 +207,9 @@ class TankFrame extends Frame{
 						}
 					}
 					if(!pressed) {
-						data = "playerchange@" + dir;
+						for(int j = 0; j < player1.size(); j++) {
+							data = "playerchange@" + player2.get(j).getX() + "@" + player2.get(j).getY() + "@" + dir;
+						}
 						Thread.sleep(sec);
 					}
 					for(int j = 0; j < player2.size(); j++) {

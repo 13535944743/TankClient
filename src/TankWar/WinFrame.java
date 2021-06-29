@@ -121,6 +121,7 @@ public class WinFrame extends JFrame{
 		root.add(b2);
 //		root.add(b3);
 		setSize(800,600);
+		setLocation(550, 200);
 		setVisible(true);
 	}
 	private class BgPanel extends JPanel {

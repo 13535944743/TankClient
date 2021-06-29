@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 public class Tank {
 	private int x, y;
-	private static int width = 40;
+	private static int width = 40; 
 	private static int height = 40;
 	private Direction dir = Direction.LEFT;
 	private Random random = new Random();

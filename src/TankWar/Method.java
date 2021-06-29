@@ -191,7 +191,6 @@ public class Method {
 	public static void double_game() throws InterruptedException {
 		tf = new TankFrame();	
 		tf.setTitle("坦克大战客户端");
-		tf.setLocation(900, 0);
 		tf.setChance(6);
 		int i;
 		Random random = new Random();
@@ -229,6 +228,7 @@ public class Method {
 			
 			/***************************************游戏胜利**********/
 			if(tf.getStep_to_win() <= 0) {
+				tf.finish = true;
 				tf.setVisible(false);
 				tf.dispose();
 				
