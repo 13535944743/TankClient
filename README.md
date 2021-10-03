@@ -20,11 +20,10 @@
 
  ![](https://pic.imgdb.cn/item/615952582ab3f51d91ba16bc.jpg)
 
+<br />
 单人模式
 
 ![](https://pic.imgdb.cn/item/615952f82ab3f51d91bb6bc2.jpg)
-
-
 
 ![](https://pic.imgdb.cn/item/6159531b2ab3f51d91bbb3a2.jpg)
 
